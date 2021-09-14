@@ -23,7 +23,8 @@ public class UsuarioService {
 	public Usuario cadastrarUsuario(Usuario usuario) {
 
 		if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent())
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Usuário já existe!", null);
+			throw new ResponseStatusException(
+					HttpStatus.BAD_REQUEST, "O Usuário já existe!", null);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String senhaEnconder = encoder.encode(usuario.getSenha());
 		usuario.setSenha(senhaEnconder);
@@ -74,7 +75,9 @@ public class UsuarioService {
 				usuarioLogin.get().setToken(authHeader);				
 				usuarioLogin.get().setEmail(usuario.get().getEmail());
 				usuarioLogin.get().setSenha(usuario.get().getSenha());
-
+				usuarioLogin.get().setAdm(usuario.get().getAdm());
+				usuarioLogin.get().setNomeCompleto(usuario.get().getNomeCompleto());
+				
 				return usuarioLogin;
 
 			}
